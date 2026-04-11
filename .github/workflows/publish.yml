@@ -3,13 +3,19 @@ name: publish
 on:
   workflow_dispatch:
     inputs:
-      version: 
-        description: "1.1.1"
-        required: true
       publish_to_pypi:
-        description: "Publish to PyPI"
+        description: "Publish distributions to PyPI (Trusted Publisher)"
         type: boolean
-        default: true
+        required: false
+        default: false
+      include_prerelease_pythons:
+        description: "Also build prerelease CPython wheels (e.g. Python 3.14 / cp314) when available"
+        type: boolean
+        required: false
+        default: false
+  push:
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -19,6 +25,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+    permissions:
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -27,28 +35,129 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Set version dynamically
+      - name: Validate version consistency
+        shell: bash
         run: |
-          echo "Setting version to ${{ inputs.version }}"
-          sed -i 's/version = ".*"/version = "${{ inputs.version }}"/' pyproject.toml || true
+          set -euo pipefail
+          python - <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+          try:
+            import tomllib  # py3.11+
+          except Exception:  # pragma: no cover
+            import tomli as tomllib
 
-      - name: Clean build cache
+          root = Path(".")
+          pyproject = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
+          py_ver = pyproject["project"]["version"]
+
+          cmake = (root / "CMakeLists.txt").read_text(encoding="utf-8")
+          m = re.search(r"project\\(\\s*Simple\\s+VERSION\\s+([0-9]+\\.[0-9]+\\.[0-9]+)", cmake, re.IGNORECASE)
+          if not m:
+            print("ERROR: Could not parse version from CMakeLists.txt", file=sys.stderr)
+            sys.exit(1)
+          cmake_ver = m.group(1)
+
+          if py_ver != cmake_ver:
+            print(f"ERROR: Version mismatch: pyproject.toml={py_ver} CMakeLists.txt={cmake_ver}", file=sys.stderr)
+            sys.exit(1)
+
+          print(f"OK: version={py_ver}")
+          PY
+
+      - name: Validate tag matches version
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
         run: |
-          rm -rf dist build *.egg-info _skbuild || true
+          set -euo pipefail
+          python - <<'PY'
+          import os
+          import sys
+          from pathlib import Path
+          try:
+            import tomllib
+          except Exception:  # pragma: no cover
+            import tomli as tomllib
 
-      - name: Install build tools
-        run: python -m pip install -U pip cibuildwheel build ninja
+          tag = os.environ.get("GITHUB_REF_NAME", "")
+          if not tag.startswith("v"):
+            print(f"ERROR: Expected v* tag, got {tag!r}", file=sys.stderr)
+            sys.exit(1)
+          ver = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
+          expected = f"v{ver}"
+          if tag != expected:
+            print(f"ERROR: Tag/version mismatch: tag={tag} expected={expected}", file=sys.stderr)
+            sys.exit(1)
+          print(f"OK: tag={tag} matches version={ver}")
+          PY
+
+      - name: Set up MSVC (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Install build tooling
+        run: python -m pip install -U pip cibuildwheel==2.21.1 build ninja
+
+      - name: Cache (pip + cibuildwheel)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/cibuildwheel
+            ./.cibw-cache
+          key: ${{ runner.os }}-cibw-${{ hashFiles('pyproject.toml', 'CMakeLists.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-cibw-
+
+      - name: Build sdist (Linux only)
+        if: runner.os == 'Linux'
+        run: python -m build --sdist -o dist
 
       - name: Build wheels
-        run: python -m cibuildwheel --output-dir dist
+        env:
+          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-* cp313-*"
+          CIBW_SKIP: "pp* *-musllinux_*"
+          CIBW_ARCHS_LINUX: "x86_64"
+          CIBW_ARCHS_MACOS: "x86_64 arm64"
+          CIBW_ARCHS_WINDOWS: "AMD64"
+          CIBW_TEST_SKIP: "*"
+          CIBW_CACHE_PATH: ".cibw-cache"
+          CIBW_MANYLINUX_X86_64_IMAGE: "manylinux2014"
 
-      - name: Verify version (CRITICAL)
+          # We link GLFW statically and don't bundle extra DLL dependencies,
+          # so avoid the slow default repair step on Windows.
+          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: ""
+
+          # Ensure Ninja exists inside each isolated build environment on Windows,
+          # because we request it via CMAKE_GENERATOR.
+          CIBW_BEFORE_BUILD_WINDOWS: "python -m pip install -U ninja"
+
+          # Speed up builds.
+          CIBW_ENVIRONMENT_LINUX: >
+            CMAKE_BUILD_PARALLEL_LEVEL=3
+            CMAKE_ARGS=-DGLFW_BUILD_WAYLAND=OFF -DGLFW_BUILD_X11=ON
+          CIBW_ENVIRONMENT_MACOS: >
+            CMAKE_BUILD_PARALLEL_LEVEL=3
+          CIBW_ENVIRONMENT_WINDOWS: >
+            CMAKE_BUILD_PARALLEL_LEVEL=3
+            CMAKE_GENERATOR=Ninja
+
+          # Build deps for GLFW/OpenGL on manylinux.
+          CIBW_BEFORE_ALL_LINUX: >
+            yum install -y
+            libX11-devel libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel
+            mesa-libGL-devel
+        shell: bash
         run: |
-          ls dist
-          if ls dist | grep -q "0.1.1"; then
-            echo "❌ ERROR: Old version detected"
-            exit 1
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.include_prerelease_pythons }}" == "true" ]]; then
+            echo "CIBW_PRERELEASE_PYTHONS=1" >> "$GITHUB_ENV"
+            echo "CIBW_BUILD=cp39-* cp310-* cp311-* cp312-* cp313-* cp314-*" >> "$GITHUB_ENV"
           fi
+          python -m cibuildwheel --output-dir dist
 
       - uses: actions/upload-artifact@v4
         with:
@@ -59,24 +168,18 @@ jobs:
     name: Publish to PyPI
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ inputs.publish_to_pypi }}
-
     permissions:
       id-token: write
+      contents: read
+    if: |
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) ||
+      (github.event_name == 'workflow_dispatch' && (inputs.publish_to_pypi == true || inputs.publish_to_pypi == 'true'))
 
     steps:
       - uses: actions/download-artifact@v4
         with:
           path: dist
           merge-multiple: true
-
-      - name: Final sanity check
-        run: |
-          ls dist
-          if ls dist | grep -q "0.1.1"; then
-            echo "❌ Refusing to upload old version"
-            exit 1
-          fi
 
       - name: Publish
         uses: pypa/gh-action-pypi-publish@release/v1
