@@ -1,0 +1,15 @@
+include CMakeLists.txt
+include pyproject.toml
+include README.md
+include LICENSE
+include requirements.txt
+
+recursive-include cpp_core *.h *.cpp
+recursive-include python_api *.py
+recursive-include assets *
+recursive-include templates *
+recursive-include examples *.py
+recursive-include docs *.md
+recursive-include tools *.py *.spec
+recursive-include .github/workflows *.yml
+
