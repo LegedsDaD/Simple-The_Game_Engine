@@ -1,0 +1,139 @@
+name: editor
+
+on:
+  workflow_dispatch:
+    inputs:
+      update_editor_branch:
+        description: "Update/push the `editor` branch with latest editor downloads"
+        type: boolean
+        required: false
+        default: true
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build_editor:
+    name: Build editor (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up MSVC (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Linux system deps (GLFW/OpenGL headers)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev \
+            mesa-common-dev libgl1-mesa-dev
+
+      - name: Install build deps
+        run: python -m pip install -U pip pyinstaller
+
+      - name: Build + install engine (editor runtime)
+        run: python -m pip install .
+
+      - name: Build editor bundle (PyInstaller)
+        run: python tools/build_editor.py
+
+      - name: Package editor (zip)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p editor_dist
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            powershell -NoProfile -Command "Compress-Archive -Path dist\\SimpleEditor\\* -DestinationPath editor_dist\\SimpleEditor-windows.zip -Force"
+          elif [ "${{ runner.os }}" = "macOS" ]; then
+            (cd dist && zip -r ../editor_dist/SimpleEditor-macos.zip SimpleEditor)
+          else
+            (cd dist && zip -r ../editor_dist/SimpleEditor-linux.zip SimpleEditor)
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: editor-${{ matrix.os }}
+          path: editor_dist/*.zip
+
+  editor_branch:
+    name: Update editor branch
+    needs: build_editor
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: |
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) ||
+      (github.event_name == 'workflow_dispatch' && (inputs.update_editor_branch == true || inputs.update_editor_branch == 'true'))
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: editor_downloads
+          merge-multiple: true
+
+      - name: Prepare editor branch content
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .editor_branch_out
+          mkdir -p .editor_branch_out
+
+          cp -f editor_downloads/SimpleEditor-*.zip .editor_branch_out/ 2>/dev/null || true
+
+          cat > .editor_branch_out/README.md <<'EOF'
+          # Simple Editor Downloads
+
+          This branch contains the latest **standalone Simple Editor** downloads built by CI.
+
+          - `SimpleEditor-windows.zip`
+          - `SimpleEditor-macos.zip`
+          - `SimpleEditor-linux.zip`
+
+          Download the ZIP for your OS, extract it, and run the `SimpleEditor` executable.
+          EOF
+
+          echo "${GITHUB_REF_NAME:-manual}" > .editor_branch_out/LATEST.txt
+
+      - name: Commit to editor branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/editor:refs/remotes/origin/editor || true
+
+          if git show-ref --verify --quiet refs/remotes/origin/editor; then
+            git checkout -B editor origin/editor
+          else
+            git checkout --orphan editor
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+
+          find . -mindepth 1 -maxdepth 1 ! -name ".git" -exec rm -rf {} +
+          cp -r .editor_branch_out/* .
+
+          git add -A
+          git commit -m "Update editor downloads (${GITHUB_REF_NAME:-manual})" || echo "No changes to commit."
+          git push -f origin editor
+
