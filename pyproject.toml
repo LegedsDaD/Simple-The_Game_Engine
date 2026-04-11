@@ -7,7 +7,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "simple-game-engine"
-version = "1.0.0"
+version = "1.1.1"
 description = "Simple: lightweight C++/OpenGL engine with a Python-first API"
 readme = "README.md"
 requires-python = ">=3.9"
