@@ -33,11 +33,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glfw)
 
-# manylinux2014 (CentOS 7) headers require an explicit POSIX feature level for
-# CLOCK_MONOTONIC / clock_gettime in <time.h>.
+# manylinux2014 (CentOS 7) headers are sensitive to feature macros.
+# We need:
+# - clock_gettime/CLOCK_MONOTONIC (timer) and
+# - O_CLOEXEC (joystick hotplug)
+# when building GLFW from source.
 if (UNIX AND NOT APPLE)
   if (TARGET glfw)
-    target_compile_definitions(glfw PRIVATE _POSIX_C_SOURCE=199309L)
+    target_compile_definitions(glfw PRIVATE _POSIX_C_SOURCE=200809L _GNU_SOURCE=1)
   endif()
 endif()
 
