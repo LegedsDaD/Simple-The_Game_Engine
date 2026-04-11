@@ -1,0 +1,28 @@
+{
+  "background": [0.05, 0.05, 0.07],
+  "camera_position": [0.0, 1.6, 6.8],
+  "camera_rotation": [-10.0, 0.0, 0.0],
+  "lines": [
+    { "a": [-3.0, 0.0, 0.0], "b": [3.0, 0.0, 0.0], "color": [1.0, 0.5, 0.2] }
+  ],
+  "cubes": [
+    {
+      "name": "Player",
+      "position": [0.0, 0.0, 0.0],
+      "rotation": [0.0, 0.0, 0.0],
+      "scale": [1.0, 1.0, 1.0],
+      "color": [0.15, 0.95, 0.55],
+      "texture": "",
+      "spin": [0.0, 0.0, 0.0]
+    },
+    {
+      "name": "Spinner",
+      "position": [2.0, 0.0, 0.0],
+      "rotation": [0.0, 0.0, 0.0],
+      "scale": [0.9, 0.9, 0.9],
+      "color": [1.0, 0.7, 0.2],
+      "texture": "simple:checker.ppm",
+      "spin": [0.0, 60.0, 0.0]
+    }
+  ]
+}
