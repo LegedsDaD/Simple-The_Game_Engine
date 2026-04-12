@@ -1,10 +1,10 @@
-# Simple
+# Simple — Pro‑Ready Python Game Engine
 
-Simple is a small, production-oriented game/animation engine:
+Simple is a fast, modern game/animation engine built for Python developers who want **real engine power** without the heavyweight setup. It’s designed to feel pro from day one:
 
-- **Python-first API** (`import simple`)
-- **C++/OpenGL 3.3 core** for rendering + the main loop
-- A lightweight **editor** for `.sim` projects with Play-in-Editor
+- **Python-first workflow** (`import simple`) with a clean, friendly API
+- **C++/OpenGL 3.3 core** for speed, rendering, and the main loop
+- A lightweight **editor** for `.sim` projects with Play‑in‑Editor
 
 ## Quick start (10 lines)
 
@@ -17,7 +17,14 @@ scene.add(cube)
 scene.run()
 ```
 
-## What you get
+## Why Simple
+
+- **Ridiculously fast to start**: visible results in under 10 lines
+- **Built for creators**: editor + runtime in the same ecosystem
+- **Performance without the pain**: C++ core, Python simplicity
+- **Small‑team friendly**: minimal setup, modern engine features
+
+## What you get (out of the box)
 
 - Rendering: lit 3D cubes (Phong-ish directional light), optional textures (`.ppm`)
 - Scene system: `Scene` + entities (`Cube`)
@@ -28,15 +35,15 @@ scene.run()
 - Screenshots: `scene.screenshot("frame.ppm")`
 - Editor: create/open `.sim` projects, edit objects, Play, Auto Reload
 
-## Install
+## Install (PyPI)
 
-### Pip (end users)
+Version **1.1.1** is live:
 
 ```bash
-python -m pip install simple-game-engine
+pip install simple-game-engine
 ```
 
-### From source (contributors)
+## From source (contributors)
 
 ```bash
 python -m pip install -U pip
@@ -73,7 +80,3 @@ python examples/pro_debug_hud.py
 - Engine docs: `docs/index.md`
 - Editor docs: `docs/editor.md`
 
-## Release (PyPI Trusted Publisher)
-
-- Tag `vX.Y.Z` to publish wheels + sdist via GitHub Actions.
-- Setup details: `docs/getting_started.md`
