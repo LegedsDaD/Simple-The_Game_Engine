@@ -23,7 +23,7 @@ python -m pip install -e .
 Install from PyPI:
 
 ```bash
-python -m pip install simple-game-engine
+pip install simple-game-engine
 ```
 
 This builds the C++ extension and installs the `simple` Python package.
