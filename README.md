@@ -35,6 +35,10 @@ scene.run()
 - Screenshots: `scene.screenshot("frame.ppm")`
 - Editor: create/open `.sim` projects, edit objects, Play, Auto Reload
 
+
+THE EDITOR :-
+<img width="1366" height="768" alt="Simple Editor" src="https://github.com/user-attachments/assets/1346ca1a-5109-42f0-917c-e8926d7a09ae" />
+
 ## Install (PyPI)
 
 Version **1.1.1** is live:
