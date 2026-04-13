@@ -1,5 +1,11 @@
 # Simple — Pro‑Ready Python Game Engine
 
+<p align="center">
+ 
+  [![PyPI Downloads](https://static.pepy.tech/personalized-badge/simple-game-engine?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=ORANGE&left_text=Downloads)](https://pepy.tech/projects/simple-game-engine)
+
+</p>
+
 Simple is a fast, modern game/animation engine built for Python developers who want **real engine power** without the heavyweight setup. It’s designed to feel pro from day one:
 
 - **Python-first workflow** (`import simple`) with a clean, friendly API
