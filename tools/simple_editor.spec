@@ -6,20 +6,26 @@ from pathlib import Path
 
 from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs, collect_submodules
 
+def _find_repo_root(start: Path) -> Path:
+    for candidate in [start, *start.parents]:
+        if (candidate / "pyproject.toml").exists() and (candidate / "CMakeLists.txt").exists():
+            return candidate
+    return start
+
+
 def _detect_repo_root() -> Path:
     # Prefer an explicit environment variable (set by tools/build_editor.py and CI).
     env_root = os.environ.get("SIMPLE_REPO_ROOT")
     if env_root:
-        return Path(env_root).resolve()
+        return _find_repo_root(Path(env_root).resolve())
 
     # PyInstaller defines `SPECPATH` as the directory containing this spec file.
     spec_dir = globals().get("SPECPATH")
     if spec_dir:
-        # This spec lives in `<repo>/tools/`.
-        return (Path(spec_dir).resolve()).parents[0]
+        return _find_repo_root(Path(spec_dir).resolve())
 
-    # Last resort: assume current working directory is repo root.
-    return Path(os.getcwd()).resolve()
+    # Last resort: walk up from current working directory.
+    return _find_repo_root(Path(os.getcwd()).resolve())
 
 
 root = _detect_repo_root()
