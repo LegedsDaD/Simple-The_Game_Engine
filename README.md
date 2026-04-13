@@ -87,6 +87,4 @@ python examples/pro_debug_hud.py
 
 ## Documentation
 
-- Engine docs: `docs/index.md`
-- Editor docs: `docs/editor.md`
-
+See [Documentation](https://github.com/LegedsDaD/Simple-The_Game_Engine/tree/main/docs) for more information of How to use.
