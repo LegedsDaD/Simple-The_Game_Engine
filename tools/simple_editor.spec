@@ -6,7 +6,23 @@ from pathlib import Path
 
 from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs, collect_submodules
 
-root = Path(__file__).resolve().parents[1]
+def _detect_repo_root() -> Path:
+    # Prefer an explicit environment variable (set by tools/build_editor.py and CI).
+    env_root = os.environ.get("SIMPLE_REPO_ROOT")
+    if env_root:
+        return Path(env_root).resolve()
+
+    # PyInstaller defines `SPECPATH` as the directory containing this spec file.
+    spec_dir = globals().get("SPECPATH")
+    if spec_dir:
+        # This spec lives in `<repo>/tools/`.
+        return (Path(spec_dir).resolve()).parents[0]
+
+    # Last resort: assume current working directory is repo root.
+    return Path(os.getcwd()).resolve()
+
+
+root = _detect_repo_root()
 
 hiddenimports = collect_submodules("simple")
 
@@ -17,7 +33,7 @@ binaries = []
 binaries += collect_dynamic_libs("simple")
 
 a = Analysis(
-    ["-m", "simple.editor.app"],
+    [str(root / "tools" / "simple_editor_entry.py")],
     pathex=[str(root)],
     binaries=binaries,
     datas=datas,
@@ -48,4 +64,3 @@ coll = COLLECT(
     upx=False,
     name="SimpleEditor",
 )
-
