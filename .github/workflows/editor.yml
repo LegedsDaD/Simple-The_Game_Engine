@@ -96,16 +96,18 @@ jobs:
           path: editor_downloads
           merge-multiple: true
 
-      - name: Prepare editor branch content
+      - name: Build editor branch payload
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf .editor_branch_out
-          mkdir -p .editor_branch_out
+          out="${RUNNER_TEMP}/simple_editor_branch_out"
+          rm -rf "$out"
+          mkdir -p "$out"
 
-          cp -f editor_downloads/SimpleEditor-*.zip .editor_branch_out/ 2>/dev/null || true
+          # Copy zips produced by the build job (filenames are stable).
+          cp -f editor_downloads/SimpleEditor-*.zip "$out/" 2>/dev/null || true
 
-          cat > .editor_branch_out/README.md <<'EOF'
+          cat > "$out/README.md" <<'EOF'
           # Simple Editor Downloads
 
           This branch contains the latest **standalone Simple Editor** downloads built by CI.
@@ -117,12 +119,23 @@ jobs:
           Download the ZIP for your OS, extract it, and run the `SimpleEditor` executable.
           EOF
 
-          echo "${GITHUB_RUN_ID}" > .editor_branch_out/LATEST.txt
+          echo "${GITHUB_RUN_ID}" > "$out/LATEST.txt"
+
+          # Guardrail: if none of the zips exist, fail loudly (so we don't publish an empty branch).
+          count="$(ls -1 "$out"/SimpleEditor-*.zip 2>/dev/null | wc -l | tr -d ' ')"
+          if [ "$count" -lt 1 ]; then
+            echo "ERROR: No editor zip artifacts found in editor_downloads/"
+            echo "Contents:"
+            ls -la editor_downloads || true
+            exit 1
+          fi
 
       - name: Commit to editor branch
         shell: bash
         run: |
           set -euo pipefail
+          out="${RUNNER_TEMP}/simple_editor_branch_out"
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
@@ -135,8 +148,9 @@ jobs:
             git rm -rf . >/dev/null 2>&1 || true
           fi
 
+          # Replace branch contents; keep `.git`, and copy from $RUNNER_TEMP (so we don't delete our source).
           find . -mindepth 1 -maxdepth 1 ! -name ".git" -exec rm -rf {} +
-          cp -r .editor_branch_out/* .
+          cp -a "$out/." .
 
           git add -A
           git commit -m "Update editor downloads (run ${GITHUB_RUN_ID})" || echo "No changes to commit."
