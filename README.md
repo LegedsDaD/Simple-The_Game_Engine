@@ -22,7 +22,7 @@ Simple is a fast, modern game/animation engine built for Python developers who w
 - A lightweight **editor** for `.sim` projects with Play‑in‑Editor
 
 ## To Download the Standalone Editor , Follow the given Steps :
-**Step 1** Download the OS specific .zip CLick your OS [Windows](https://github.com/LegedsDaD/Simple-The_Game_Engine/releases/download/v1.1.1/SimpleEditor-windows.zip) , [Linux](https://github.com/LegedsDaD/Simple-The_Game_Engine/releases/download/v1.1.1/SimpleEditor-linux.zip) , [Macos](https://github.com/LegedsDaD/Simple-The_Game_Engine/releases/download/v1.1.1/SimpleEditor-macos.zip) and you should see the .zip file getting downloaded .
+**Step 1** Download the OS specific .zip Click your OS [Windows](https://github.com/LegedsDaD/Simple-The_Game_Engine/releases/download/v1.1.1/SimpleEditor-windows.zip) , [Linux](https://github.com/LegedsDaD/Simple-The_Game_Engine/releases/download/v1.1.1/SimpleEditor-linux.zip) , [Macos](https://github.com/LegedsDaD/Simple-The_Game_Engine/releases/download/v1.1.1/SimpleEditor-macos.zip) and you should see the .zip file getting downloaded .
 
 **Step 2** Locate the .zip file.
 
