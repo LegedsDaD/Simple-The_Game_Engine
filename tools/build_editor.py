@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 import sys
@@ -15,7 +16,12 @@ def main() -> None:
     """
 
     root = Path(__file__).resolve().parents[1]
-    spec = root / "tools" / "simple_editor.spec"
+    if sys.platform.startswith("win"):
+        spec = root / "editor" / "specs" / "windows.spec"
+    elif sys.platform == "darwin":
+        spec = root / "editor" / "specs" / "macos.spec"
+    else:
+        spec = root / "editor" / "specs" / "linux.spec"
     dist = root / "dist"
     build = root / "build"
 
@@ -24,11 +30,13 @@ def main() -> None:
     if build.exists():
         shutil.rmtree(build)
 
+    env = dict(**os.environ)
+    env["SIMPLE_REPO_ROOT"] = str(root)
+    env["SIMPLE_SPEC_DIR"] = str(spec.parent)
     cmd = [sys.executable, "-m", "PyInstaller", "--noconfirm", str(spec)]
     print("$", " ".join(cmd))
-    subprocess.check_call(cmd, cwd=str(root))
+    subprocess.check_call(cmd, cwd=str(root), env=env)
 
 
 if __name__ == "__main__":
     main()
-
