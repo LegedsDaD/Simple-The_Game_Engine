@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       update_editor_branch:
-        description: "Update/push the `editor` branch with latest editor downloads"
+        description: "Update/push the `Editors` branch with latest editor downloads"
         type: boolean
         required: false
         default: true
@@ -79,7 +79,7 @@ jobs:
           path: editor_dist/*.zip
 
   editor_branch:
-    name: Update editor branch
+    name: Update Editors branch
     needs: build_editor
     runs-on: ubuntu-latest
     permissions:
@@ -139,12 +139,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git fetch --no-tags --prune --depth=1 origin +refs/heads/editor:refs/remotes/origin/editor || true
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/Editors:refs/remotes/origin/Editors || true
 
-          if git show-ref --verify --quiet refs/remotes/origin/editor; then
-            git checkout -B editor origin/editor
+          if git show-ref --verify --quiet refs/remotes/origin/Editors; then
+            git checkout -B Editors origin/Editors
           else
-            git checkout --orphan editor
+            git checkout --orphan Editors
             git rm -rf . >/dev/null 2>&1 || true
           fi
 
@@ -154,5 +154,4 @@ jobs:
 
           git add -A
           git commit -m "Update editor downloads (run ${GITHUB_RUN_ID})" || echo "No changes to commit."
-          git push -f origin editor
-
+          git push -f origin Editors
