@@ -1,0 +1,37 @@
+name: Create Empty Branch
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Editors'
+        required: true
+        default: 'empty-branch'
+
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Orphan Branch
+        run: |
+          # 1. Create a branch with no parent history
+          git checkout --orphan ${{ github.event.inputs.branch_name }}
+          
+          # 2. Remove all tracked files from the staging area
+          git rm -rf .
+          
+          # 3. Create an initial file (a branch cannot exist without at least one commit)
+          echo "# New Empty Branch" > README.md
+          
+          # 4. Configure Git credentials
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # 5. Commit and push
+          git add README.md
+          git commit -m "Initialize empty branch"
+          git push origin ${{ github.event.inputs.branch_name }}
