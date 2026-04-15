@@ -8,9 +8,6 @@ on:
         type: boolean
         required: false
         default: true
-  push:
-    tags:
-      - "v*"
 
 jobs:
   build_editor:
@@ -47,24 +44,34 @@ jobs:
       - name: Install build deps
         run: python -m pip install -U pip pyinstaller
 
-      - name: Build + install engine (editor runtime)
+      - name: Install engine (builds C++ extension)
         run: python -m pip install .
 
       - name: Build editor bundle (PyInstaller)
         run: python tools/build_editor.py
 
-      - name: Package editor (zip)
+      - name: Package editor (Windows zip)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force editor_dist | Out-Null
+          Compress-Archive -Path dist\SimpleEditor\* -DestinationPath editor_dist\SimpleEditor-windows.zip -Force
+
+      - name: Package editor (macOS zip)
+        if: runner.os == 'macOS'
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p editor_dist
-          if [ "${{ runner.os }}" = "Windows" ]; then
-            powershell -NoProfile -Command "Compress-Archive -Path dist\\SimpleEditor\\* -DestinationPath editor_dist\\SimpleEditor-windows.zip -Force"
-          elif [ "${{ runner.os }}" = "macOS" ]; then
-            (cd dist && zip -r ../editor_dist/SimpleEditor-macos.zip SimpleEditor)
-          else
-            (cd dist && zip -r ../editor_dist/SimpleEditor-linux.zip SimpleEditor)
-          fi
+          (cd dist && zip -r ../editor_dist/SimpleEditor-macos.zip SimpleEditor)
+
+      - name: Package editor (Linux zip)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p editor_dist
+          (cd dist && zip -r ../editor_dist/SimpleEditor-linux.zip SimpleEditor)
 
       - uses: actions/upload-artifact@v4
         with:
@@ -77,9 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    if: |
-      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) ||
-      (github.event_name == 'workflow_dispatch' && (inputs.update_editor_branch == true || inputs.update_editor_branch == 'true'))
+    if: ${{ github.event_name == 'workflow_dispatch' && (inputs.update_editor_branch == true || inputs.update_editor_branch == 'true') }}
 
     steps:
       - uses: actions/checkout@v4
@@ -112,7 +117,7 @@ jobs:
           Download the ZIP for your OS, extract it, and run the `SimpleEditor` executable.
           EOF
 
-          echo "${GITHUB_REF_NAME:-manual}" > .editor_branch_out/LATEST.txt
+          echo "${GITHUB_RUN_ID}" > .editor_branch_out/LATEST.txt
 
       - name: Commit to editor branch
         shell: bash
@@ -134,6 +139,6 @@ jobs:
           cp -r .editor_branch_out/* .
 
           git add -A
-          git commit -m "Update editor downloads (${GITHUB_REF_NAME:-manual})" || echo "No changes to commit."
+          git commit -m "Update editor downloads (run ${GITHUB_RUN_ID})" || echo "No changes to commit."
           git push -f origin editor
 
