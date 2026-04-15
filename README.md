@@ -2,10 +2,17 @@
 
 <p align="center">
  
-  [![PyPI Downloads](https://static.pepy.tech/personalized-badge/simple-game-engine?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=ORANGE&left_text=Downloads)](https://pepy.tech/projects/simple-game-engine)
+  [![PyPI Downloads](https://static.pepy.tech/personalized-badge/simple-game-engine?period=total&units=INTERNATIONAL_SYSTEM&left_color=1A1A1A&right_color=AFC4D6&left_text=Downloads)](https://pepy.tech/projects/simple-game-engine)
 
 </p>
-
+<p align="center">
+  <img src="https://img.shields.io/badge/SIMPLE-Game_Engine-A8D5C2?style=for-the-badge&labelColor=1A1A1A" style="border-radius: 20px;" />
+  <img src="https://img.shields.io/badge/Languages-Python_%26_C%2B%2B-B7C9E2?style=for-the-badge&logo=python&logoColor=F2D16B&labelColor=1A1A1A" style="border-radius: 20px;" />
+  <img src="https://img.shields.io/badge/BUILD_SYSTEM-CMake-B0C4D9?style=for-the-badge&logo=cmake&logoColor=white&labelColor=1A1A1A" style="border-radius: 20px;" />
+  <img src="https://img.shields.io/badge/RENDERING-OpenGL_3.3-C3D4E6?style=for-the-badge&logo=opengl&logoColor=white&labelColor=1A1A1A" style="border-radius: 20px;" />
+  <img src="https://img.shields.io/badge/FEATURE-Visual_Editor-D6C2E8?style=for-the-badge&labelColor=1A1A1A" style="border-radius: 20px;" />
+  <img src="https://img.shields.io/badge/pip_install-simple--game--engine-AFC4D6?style=for-the-badge&logo=pypi&logoColor=F2D16B&labelColor=1A1A1A" style="border-radius: 20px;" />
+</p>
 Simple is a fast, modern game/animation engine built for Python developers who want **real engine power** without the heavyweight setup. It’s designed to feel pro from day one:
 
 - **Python-first workflow** (`import simple`) with a clean, friendly API
