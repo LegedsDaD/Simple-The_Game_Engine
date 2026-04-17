@@ -4,16 +4,39 @@
 <img width="150" height="200" alt="Simple 2" src="https://github.com/user-attachments/assets/15d755da-73f1-447a-b3b0-eeeb670e3213" />
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/SIMPLE-Game_Engine-A8D5C2?style=for-the-badge&labelColor=1A1A1A" style="border-radius: 20px;" />
-  <img src="https://img.shields.io/badge/Languages-Python_%26_C%2B%2B-B7C9E2?style=for-the-badge&logo=python&logoColor=F2D16B&labelColor=1A1A1A" style="border-radius: 20px;" />
-  <img src="https://img.shields.io/badge/BUILD_SYSTEM-CMake-B0C4D9?style=for-the-badge&logo=cmake&logoColor=white&labelColor=1A1A1A" style="border-radius: 20px;" />
-  <img src="https://img.shields.io/badge/RENDERING-OpenGL_3.3-C3D4E6?style=for-the-badge&logo=opengl&logoColor=white&labelColor=1A1A1A" style="border-radius: 20px;" />
-  <img src="https://img.shields.io/badge/FEATURE-Visual_Editor-D6C2E8?style=for-the-badge&labelColor=1A1A1A" style="border-radius: 20px;" />
-  <img src="https://img.shields.io/badge/pip_install-simple--game--engine-AFC4D6?style=for-the-badge&logo=pypi&logoColor=F2D16B&labelColor=1A1A1A" style="border-radius: 20px;" />
-</p>
+<div align="center">
 
+<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center">
 
+<div style="border-radius:999px;overflow:hidden;box-shadow:0 8px 24px rgba(168,213,194,0.12),0 4px 8px rgba(0,0,0,0.5),inset 0 2px 3px rgba(0,0,0,0.5),inset 0 -1px 1px rgba(255,255,255,0.1)">
+  <img src="https://img.shields.io/badge/SIMPLE-Game_Engine-A8D5C2?style=for-the-badge&labelColor=1A1A1A" alt="SIMPLE Game Engine">
+</div>
+
+<div style="border-radius:999px;overflow:hidden;box-shadow:0 8px 24px rgba(183,201,226,0.10),0 4px 8px rgba(0,0,0,0.5),inset 0 2px 3px rgba(0,0,0,0.5),inset 0 -1px 1px rgba(255,255,255,0.1)">
+  <img src="https://img.shields.io/badge/Languages-Python_%26_C%2B%2B-B7C9E2?style=for-the-badge&logo=python&logoColor=F2D16B&labelColor=1A1A1A" alt="Languages">
+</div>
+
+<div style="border-radius:999px;overflow:hidden;box-shadow:0 8px 24px rgba(176,196,217,0.10),0 4px 8px rgba(0,0,0,0.5),inset 0 2px 3px rgba(0,0,0,0.5),inset 0 -1px 1px rgba(255,255,255,0.1)">
+  <img src="https://img.shields.io/badge/BUILD_SYSTEM-CMake-B0C4D9?style=for-the-badge&logo=cmake&logoColor=white&labelColor=1A1A1A" alt="CMake">
+</div>
+
+<div style="border-radius:999px;overflow:hidden;box-shadow:0 8px 24px rgba(195,212,230,0.10),0 4px 8px rgba(0,0,0,0.5),inset 0 2px 3px rgba(0,0,0,0.5),inset 0 -1px 1px rgba(255,255,255,0.1)">
+  <img src="https://img.shields.io/badge/RENDERING-OpenGL_3.3-C3D4E6?style=for-the-badge&logo=opengl&logoColor=white&labelColor=1A1A1A" alt="OpenGL 3.3">
+</div>
+
+<div style="border-radius:999px;overflow:hidden;box-shadow:0 8px 24px rgba(214,194,232,0.12),0 4px 8px rgba(0,0,0,0.5),inset 0 2px 3px rgba(0,0,0,0.5),inset 0 -1px 1px rgba(255,255,255,0.1)">
+  <img src="https://img.shields.io/badge/FEATURE-Visual_Editor-D6C2E8?style=for-the-badge&labelColor=1A1A1A" alt="Visual Editor">
+</div>
+
+<div style="border-radius:999px;overflow:hidden;box-shadow:0 8px 24px rgba(175,196,214,0.10),0 4px 8px rgba(0,0,0,0.5),inset 0 2px 3px rgba(0,0,0,0.5),inset 0 -1px 1px rgba(255,255,255,0.1)">
+  <img src="https://img.shields.io/badge/pip_install-simple--game--engine-AFC4D6?style=for-the-badge&logo=pypi&logoColor=F2D16B&labelColor=1A1A1A" alt="pip install">
+</div>
+
+</div>
+
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/simple-game-engine?period=total&units=NONE&left_color=BLACK&right_color=GREEN&left_text=Downloads)](https://pepy.tech/projects/simple-game-engine)
+
+</div>
 
 Simple is a fast, modern game/animation engine built for Python developers who want **real engine power** without the heavyweight setup. It’s designed to feel pro from day one:
 
