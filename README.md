@@ -38,8 +38,6 @@
 
 </div>
 
-## Goal - 100 stars for version `2.0.0` . Do star the project if tou like it .
-
 Simple is a fast, modern game/animation engine built for Python developers who want **real engine power** without the heavyweight setup. It’s designed to feel pro from day one:
 
 - **Python-first workflow** (`import simple`) with a clean, friendly API
@@ -129,3 +127,7 @@ python examples/pro_debug_hud.py
 ## Documentation
 
 See [Documentation](https://github.com/LegedsDaD/Simple-The_Game_Engine/tree/main/docs) for more information of How to use.
+
+## Community Engagement 
+
+So Star 🌟 the project if you like it .
