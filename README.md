@@ -36,7 +36,10 @@
 
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/simple-game-engine?period=total&units=NONE&left_color=BLACK&right_color=GREEN&left_text=Downloads)](https://pepy.tech/projects/simple-game-engine)
 
+[![RepoRanker](https://reporanker.com/badge/LegedsDaD/Simple-The_Game_Engine)](https://reporanker.com/repos/LegedsDaD/Simple-The_Game_Engine)
+
 </div>
+
 
 Simple is a fast, modern game/animation engine built for Python developers who want **real engine power** without the heavyweight setup. It’s designed to feel pro from day one:
 
