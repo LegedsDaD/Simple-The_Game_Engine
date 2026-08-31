@@ -1,5 +1,7 @@
 # Simple — Pro‑Ready Python Game Engine
 
+
+## Note - Simple is not tested under other OS except Windows
 <p align="center">
 <img width="150" height="200" alt="Simple 2" src="https://github.com/user-attachments/assets/15d755da-73f1-447a-b3b0-eeeb670e3213" />
 </p>
