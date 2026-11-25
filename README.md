@@ -1804,18 +1804,6 @@ Thanks to everyone supporting this project!
 
 
 <td align="center" width="20%">
-  <a href="https://github.com/JayNguyen0505-es">
-    <img src="https://avatars.githubusercontent.com/u/192913383?v=4&size=120"
-         width="90"
-         height="90"
-         alt="JayNguyen0505-es" />
-    <br/>
-    <strong>@JayNguyen0505-es</strong>
-  </a>
-</td>
-
-
-<td align="center" width="20%">
   <a href="https://github.com/mudassiralladatkhan">
     <img src="https://avatars.githubusercontent.com/u/208343323?v=4&size=120"
          width="90"
@@ -1826,8 +1814,6 @@ Thanks to everyone supporting this project!
   </a>
 </td>
 
-</tr>
-<tr>
 
 <td align="center" width="20%">
   <a href="https://github.com/krishbuilds01">
@@ -1840,6 +1826,8 @@ Thanks to everyone supporting this project!
   </a>
 </td>
 
+</tr>
+<tr>
 
 <td align="center" width="20%">
   <a href="https://github.com/Aashritha-2005">
@@ -1849,6 +1837,18 @@ Thanks to everyone supporting this project!
          alt="Aashritha-2005" />
     <br/>
     <strong>@Aashritha-2005</strong>
+  </a>
+</td>
+
+
+<td align="center" width="20%">
+  <a href="https://github.com/arnavseth12">
+    <img src="https://avatars.githubusercontent.com/u/241027327?v=4&size=120"
+         width="90"
+         height="90"
+         alt="arnavseth12" />
+    <br/>
+    <strong>@arnavseth12</strong>
   </a>
 </td>
 
