@@ -148,7 +148,7 @@ So Star 🌟 the project if you like it .
 
 Thanks to everyone supporting this project!
 
-### ⭐ 135 Amazing Supporters
+### ⭐ 136 Amazing Supporters
 
 </div>
 
@@ -1823,6 +1823,20 @@ Thanks to everyone supporting this project!
          alt="mudassiralladatkhan" />
     <br/>
     <strong>@mudassiralladatkhan</strong>
+  </a>
+</td>
+
+</tr>
+<tr>
+
+<td align="center" width="20%">
+  <a href="https://github.com/krishbuilds01">
+    <img src="https://avatars.githubusercontent.com/u/129619885?v=4&size=120"
+         width="90"
+         height="90"
+         alt="krishbuilds01" />
+    <br/>
+    <strong>@krishbuilds01</strong>
   </a>
 </td>
 
