@@ -11,8 +11,7 @@ END = "<!-- STARGAZERS:END -->"
 
 HEADERS = {
     "Authorization": f"Bearer {TOKEN}",
-    "Accept": "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28"
+    "Accept": "application/vnd.github+json"
 }
 
 
@@ -45,124 +44,86 @@ def fetch_stargazers():
 
 
 def generate_gallery(users):
-    rows = []
+    html = [
+        START,
+        "",
+        '<div align="center">',
+        "",
+        "# ✨ Stargazers",
+        "",
+        "Thanks to everyone supporting this project!",
+        "",
+        f"### ⭐ {len(users)} Amazing Supporters",
+        "",
+        "</div>",
+        "",
+        '<table align="center" width="100%">'
+    ]
 
     for i in range(0, len(users), 5):
-        cells = []
+        html.append("<tr>")
 
         for user in users[i:i + 5]:
             username = escape(user["login"])
             profile = escape(user["html_url"], quote=True)
             avatar = escape(user["avatar_url"], quote=True)
 
-            cells.append(f"""
-            <td align="center" width="20%" valign="top">
-              <a href="{profile}">
-                <img
-                  src="{avatar}&s=120"
-                  width="85"
-                  height="85"
-                  alt="{username}"
-                />
-                <br />
-                <sub><b>@{username}</b></sub>
-              </a>
-            </td>
-            """)
+            html.append(f"""
+<td align="center" width="20%">
+  <a href="{profile}">
+    <img src="{avatar}&size=120"
+         width="90"
+         height="90"
+         alt="{username}" />
+    <br/>
+    <strong>@{username}</strong>
+  </a>
+</td>
+""")
 
-        while len(cells) < 5:
-            cells.append('<td width="20%"></td>')
+        html.append("</tr>")
 
-        rows.append("<tr>\n" + "\n".join(cells) + "\n</tr>")
+    html.extend([
+        "</table>",
+        "",
+        '<div align="center">',
+        "",
+        "*Made possible by this amazing community!*",
+        "",
+        "</div>",
+        "",
+        END
+    ])
 
-    table = "\n".join(rows)
-
-    return f"""
-{START}
-
-<div align="center">
-
-# ✨ Stargazers
-
-**A huge thank you to everyone supporting this project!**
-
-<br />
-
-<table>
-  <tr>
-    <td align="center">
-      <h2>⭐ {len(users)}</h2>
-      <sub>TOTAL STARGAZERS</sub>
-    </td>
-  </tr>
-</table>
-
-<br />
-
-</div>
-
-<table align="center" width="100%">
-{table}
-</table>
-
-<div align="center">
-
-<br />
-
-*Every star makes a difference. Thank you for being part of this journey!*
-
-</div>
-
-{END}
-"""
+    return "\n".join(html)
 
 
 def update_readme(gallery):
     path = "README.md"
 
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as file:
-            content = file.read()
-    else:
-        content = "# Project\n\n"
+    with open(path, "r", encoding="utf-8") as file:
+        content = file.read()
 
     if content.count(START) != 1 or content.count(END) != 1:
-        raise ValueError(
-            "README must contain exactly one STARGAZERS:START "
-            "and one STARGAZERS:END marker."
-        )
+        raise ValueError("Missing or duplicate Stargazers markers.")
 
-    start_pos = content.index(START)
-    end_pos = content.index(END)
+    start = content.index(START)
+    end = content.index(END) + len(END)
 
-    if end_pos < start_pos:
-        raise ValueError("STARGAZERS markers are in the wrong order.")
+    if end < start:
+        raise ValueError("Incorrect marker order.")
 
-    end_pos += len(END)
-
-    updated = (
-        content[:start_pos]
-        + gallery
-        + content[end_pos:]
-    )
+    content = content[:start] + gallery + content[end:]
 
     with open(path, "w", encoding="utf-8") as file:
-        file.write(updated)
-
-
-def main():
-    print("Fetching stargazers...")
-
-    users = fetch_stargazers()
-
-    print(f"Found {len(users)} stargazers.")
-
-    gallery = generate_gallery(users)
-
-    update_readme(gallery)
-
-    print("Stargazers gallery successfully updated!")
+        file.write(content)
 
 
 if __name__ == "__main__":
-    main()
+    users = fetch_stargazers()
+    print(f"Found {len(users)} stargazers")
+
+    gallery = generate_gallery(users)
+    update_readme(gallery)
+
+    print("Gallery updated successfully!")
