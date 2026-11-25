@@ -148,7 +148,7 @@ So Star 🌟 the project if you like it .
 
 Thanks to everyone supporting this project!
 
-### ⭐ 136 Amazing Supporters
+### ⭐ 137 Amazing Supporters
 
 </div>
 
@@ -1837,6 +1837,18 @@ Thanks to everyone supporting this project!
          alt="krishbuilds01" />
     <br/>
     <strong>@krishbuilds01</strong>
+  </a>
+</td>
+
+
+<td align="center" width="20%">
+  <a href="https://github.com/Aashritha-2005">
+    <img src="https://avatars.githubusercontent.com/u/199344908?v=4&size=120"
+         width="90"
+         height="90"
+         alt="Aashritha-2005" />
+    <br/>
+    <strong>@Aashritha-2005</strong>
   </a>
 </td>
 
