@@ -136,3 +136,9 @@ See [Documentation](https://github.com/LegedsDaD/Simple-The_Game_Engine/tree/mai
 ## Community Engagement 
 
 So Star 🌟 the project if you like it .
+
+
+## People who liked Simple
+<!-- STARGAZERS:START -->
+
+<!-- STARGAZERS:END -->
