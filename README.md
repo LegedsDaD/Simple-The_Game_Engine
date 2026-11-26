@@ -148,7 +148,7 @@ So Star 🌟 the project if you like it .
 
 Thanks to everyone supporting this project!
 
-### ⭐ 139 Amazing Supporters
+### ⭐ 140 Amazing Supporters
 
 </div>
 
@@ -1873,6 +1873,18 @@ Thanks to everyone supporting this project!
          alt="thanos-titan" />
     <br/>
     <strong>@thanos-titan</strong>
+  </a>
+</td>
+
+
+<td align="center" width="20%">
+  <a href="https://github.com/amanda09486-sudo">
+    <img src="https://avatars.githubusercontent.com/u/359854545?v=4&size=120"
+         width="90"
+         height="90"
+         alt="amanda09486-sudo" />
+    <br/>
+    <strong>@amanda09486-sudo</strong>
   </a>
 </td>
 
