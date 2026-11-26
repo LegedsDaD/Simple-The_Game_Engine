@@ -148,7 +148,7 @@ So Star 🌟 the project if you like it .
 
 Thanks to everyone supporting this project!
 
-### ⭐ 138 Amazing Supporters
+### ⭐ 139 Amazing Supporters
 
 </div>
 
@@ -1861,6 +1861,18 @@ Thanks to everyone supporting this project!
          alt="Sri99varsan" />
     <br/>
     <strong>@Sri99varsan</strong>
+  </a>
+</td>
+
+
+<td align="center" width="20%">
+  <a href="https://github.com/thanos-titan">
+    <img src="https://avatars.githubusercontent.com/u/308982418?v=4&size=120"
+         width="90"
+         height="90"
+         alt="thanos-titan" />
+    <br/>
+    <strong>@thanos-titan</strong>
   </a>
 </td>
 
