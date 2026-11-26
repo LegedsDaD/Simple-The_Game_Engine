@@ -148,7 +148,7 @@ So Star 🌟 the project if you like it .
 
 Thanks to everyone supporting this project!
 
-### ⭐ 137 Amazing Supporters
+### ⭐ 138 Amazing Supporters
 
 </div>
 
@@ -1849,6 +1849,18 @@ Thanks to everyone supporting this project!
          alt="arnavseth12" />
     <br/>
     <strong>@arnavseth12</strong>
+  </a>
+</td>
+
+
+<td align="center" width="20%">
+  <a href="https://github.com/Sri99varsan">
+    <img src="https://avatars.githubusercontent.com/u/98585195?v=4&size=120"
+         width="90"
+         height="90"
+         alt="Sri99varsan" />
+    <br/>
+    <strong>@Sri99varsan</strong>
   </a>
 </td>
 
