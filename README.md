@@ -148,7 +148,7 @@ So Star 🌟 the project if you like it .
 
 Thanks to everyone supporting this project!
 
-### ⭐ 140 Amazing Supporters
+### ⭐ 141 Amazing Supporters
 
 </div>
 
@@ -1885,6 +1885,20 @@ Thanks to everyone supporting this project!
          alt="amanda09486-sudo" />
     <br/>
     <strong>@amanda09486-sudo</strong>
+  </a>
+</td>
+
+</tr>
+<tr>
+
+<td align="center" width="20%">
+  <a href="https://github.com/Malick-Tammal">
+    <img src="https://avatars.githubusercontent.com/u/63257939?v=4&size=120"
+         width="90"
+         height="90"
+         alt="Malick-Tammal" />
+    <br/>
+    <strong>@Malick-Tammal</strong>
   </a>
 </td>
 
