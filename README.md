@@ -148,7 +148,7 @@ So Star 🌟 the project if you like it .
 
 Thanks to everyone supporting this project!
 
-### ⭐ 141 Amazing Supporters
+### ⭐ 142 Amazing Supporters
 
 </div>
 
@@ -1899,6 +1899,18 @@ Thanks to everyone supporting this project!
          alt="Malick-Tammal" />
     <br/>
     <strong>@Malick-Tammal</strong>
+  </a>
+</td>
+
+
+<td align="center" width="20%">
+  <a href="https://github.com/rodrigomourapinto">
+    <img src="https://avatars.githubusercontent.com/u/174130487?v=4&size=120"
+         width="90"
+         height="90"
+         alt="rodrigomourapinto" />
+    <br/>
+    <strong>@rodrigomourapinto</strong>
   </a>
 </td>
 
